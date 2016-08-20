@@ -35,9 +35,9 @@ class Sql
         $hash2 = Hash::make('techit');
         $hash3 = Hash::make('mundbjar');
 
-        $q1 = "INSERT INTO users(user, pass, isadmin, first_name, last_name, phone, company) VALUES ('systemmanager', '$hash1', 1, 'Approv', 'Patents', '53290672', 'Patentsy AS')";
-        $q2 = "INSERT INTO users(user, pass, isadmin, first_name, last_name, phone, company) VALUES ('ittechnican', '$hash2', 1, 'Robert', 'Green', '92300847', 'Patentsy AS')";
-        $q3 = "INSERT INTO users(user, pass, isadmin, first_name, last_name, phone, company) VALUES ('ceobjarnitorgmund', '$hash3', 1, 'Bjarni', 'Torgmund', '32187625', 'Patentsy AS')";
+        $q1 = "INSERT INTO users(user, pass, isadmin, first_name, last_name, phone, company, email) VALUES ('systemmanager', '$hash1', 1, 'Approv', 'Patents', '53290672', 'Patentsy AS', 'systemmanager@patentsy.com')";
+        $q2 = "INSERT INTO users(user, pass, isadmin, first_name, last_name, phone, company, email) VALUES ('ittechnican', '$hash2', 1, 'Robert', 'Green', '92300847', 'Patentsy AS', 'ittechnican@patentsy.com')";
+        $q3 = "INSERT INTO users(user, pass, isadmin, first_name, last_name, phone, company, email) VALUES ('ceobjarnitorgmund', '$hash3', 1, 'Bjarni', 'Torgmund', '32187625', 'Patentsy AS', 'ceobjarnitorgmund@patentsy.com')";
 
         self::$pdo->exec($q1);
         self::$pdo->exec($q2);

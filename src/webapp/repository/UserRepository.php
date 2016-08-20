@@ -54,7 +54,8 @@ class UserRepository
 
         $result = $this->pdo->query($query, PDO::FETCH_ASSOC);
         $row = $result->fetch();
-        return $row['first_name'];
+        $name = $row['first_name'] + " " + $row['last_name'];
+        return $name;
 
     }
 
