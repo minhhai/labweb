@@ -10,9 +10,9 @@ class RegistrationFormValidation
     
     private $validationErrors = [];
     
-    public function __construct($username, $password, $fullname, $address, $postcode)
+    public function __construct($username, $password, $first_name, $last_name, $phone, $company)
     {
-        return $this->validate($username, $password, $fullname, $address, $postcode);
+        return $this->validate($username, $password, $first_name, $last_name, $phone, $company);
     }
     
     public function isGoodToGo()
@@ -25,26 +25,31 @@ class RegistrationFormValidation
         return $this->validationErrors;
     }
 
-    private function validate($username, $password, $fullname, $address, $postcode)
+    private function validate($username, $password, $first_name, $last_name, $phone, $company)
     {
         if (empty($password)) {
             $this->validationErrors[] = 'Password cannot be empty';
         }
 
-        if(empty($fullname)) {
-            $this->validationErrors[] = "Please write in your full name";
+        if(empty($first_name)) {
+            $this->validationErrors[] = "Please write in your first name";
         }
 
-        if(empty($address)) {
-            $this->validationErrors[] = "Please write in your address";
+         if(empty($last_name)) {
+            $this->validationErrors[] = "Please write in your last name";
         }
 
-        if(empty($postcode)) {
+        if(empty($phone)) {
             $this->validationErrors[] = "Please write in your post code";
         }
 
-        if (strlen($postcode) != "4") {
-            $this->validationErrors[] = "Post code must be exactly four digits";
+        if (strlen($phone) != "8") {
+            $this->validationErrors[] = "Phone number must be exactly eight digits";
+        }
+
+        if(strlen($company) > 0 && !preg_match('A-Za-z', $company))
+        {
+            $this->validationErrors[] = 'Company can only contain letters';
         }
 
         if (preg_match('/^[A-Za-z0-9_]+$/', $username) === 0) {

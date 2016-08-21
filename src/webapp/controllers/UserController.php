@@ -107,23 +107,21 @@ class UserController extends Controller
         $this->makeSureUserIsAuthenticated();
         $user = $this->auth->user();
 
-        $request = $this->app->request;
-        $email   = $request->post('email');
-        $bio     = $request->post('bio');
-        $age     = $request->post('age');
-        $fullname = $request->post('fullname');
-        $address = $request->post('address');
-        $postcode = $request->post('postcode');
+        $request    = $this->app->request;
+        $email      = $request->post('email');
+        $firstName  = $request->post('first_name');
+        $lastName  = $request->post('last_name');
+        $phone    = $request->post('phone');
+        $company   = $request->post('company');
 
-        $validation = new EditUserFormValidation($email, $bio, $age);
+        $validation = new EditUserFormValidation($email, $phone, $company);
 
         if ($validation->isGoodToGo()) {
             $user->setEmail(new Email($email));
-            $user->setBio($bio);
-            $user->setAge(new Age($age));
-            $user->setFullname($fullname);
-            $user->setAddress($address);
-            $user->setPostcode($postcode);
+            $user->setCompany($company);
+            $user->setPhone(new Phone($phone));
+            $user->setFirstName($firstName);
+            $user->setLastName($lastName);
             $this->userRepository->save($user);
 
             $this->app->flashNow('info', 'Your profile was successfully saved.');

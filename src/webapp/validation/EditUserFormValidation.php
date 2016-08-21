@@ -6,9 +6,9 @@ class EditUserFormValidation
 {
     private $validationErrors = [];
     
-    public function __construct($email, $bio, $age)
+    public function __construct($email, $phone, $company)
     {
-        $this->validate($email, $bio, $age);
+        $this->validate($email, $phone, $company);
     }
     
     public function isGoodToGo()
@@ -21,11 +21,11 @@ class EditUserFormValidation
         return $this->validationErrors;
     }
 
-    private function validate($email, $bio, $age)
+    private function validate($email, $phone, $company)
     {
         $this->validateEmail($email);
-        $this->validateAge($age);
-        $this->validateBio($bio);
+        $this->validatePhone($phone);
+        $this->validateCompany($company);
     }
     
     private function validateEmail($email)
@@ -35,17 +35,18 @@ class EditUserFormValidation
         }
     }
     
-    private function validateAge($age)
+    private function validatePhone($phone)
     {
-        if (! is_numeric($age) or $age < 0 or $age > 130) {
-            $this->validationErrors[] = 'Age must be between 0 and 130.';
+        if (! is_numeric($phone) or $phone < 00000000 or $phone > 99999999) {
+            $this->validationErrors[] = 'Phoe must be between 00000000 and 99999999.';
         }
     }
 
-    private function validateBio($bio)
+    private function validateCompany($company)
     {
-        if (empty($bio)) {
-            $this->validationErrors[] = 'Bio cannot be empty';
+        if(strlen($company) > 0 && !preg_match('A-Za-z', $company))
+        {
+            $this->validationErrors[] = 'Company can only contain letters';
         }
     }
 }

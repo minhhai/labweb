@@ -11,7 +11,7 @@ use tdt4237\webapp\models\User;
 class UserRepository
 {
     const INSERT_QUERY   = "INSERT INTO users(user, pass, first_name, last_name, phone, company, isadmin) VALUES('%s', '%s', '%s' , '%s' , '%s', '%s', '%s')";
-    const UPDATE_QUERY   = "UPDATE users SET email='%s', first_name='%s', last_name='%s', isadmin='%s', phone ='%s' WHERE id='%s'";
+    const UPDATE_QUERY   = "UPDATE users SET email='%s', first_name='%s', last_name='%s', isadmin='%s', phone ='%s' , company ='%s' WHERE id='%s'";
     const FIND_BY_NAME   = "SELECT * FROM users WHERE user='%s'";
     const DELETE_BY_NAME = "DELETE FROM users WHERE user='%s'";
     const SELECT_ALL     = "SELECT * FROM users";
@@ -106,7 +106,7 @@ class UserRepository
     public function saveNewUser(User $user)
     {
         $query = sprintf(
-            self::INSERT_QUERY, $user->getUsername(), $user->getHash(), $user->getEmail(), $user->getFirstName(), $user->getLastName(), $user->isAdmin(), $user->getPhone(), $user->getCompany()
+            self::INSERT_QUERY, $user->getUsername(), $user->getHash(), $user->getFirstName(), $user->getLastName(), $user->getPhone(), $user->getCompany(), $user->isAdmin()
         );
 
         return $this->pdo->exec($query);
