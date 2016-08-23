@@ -23,7 +23,7 @@
             <div id="navbar">
                 {% if isLoggedIn %}
                     Logged in as {{ loggedInUsername }}.<br>
-                    <a href ="{{ urlFor('showposts') }}"> Show posts</a> <br>
+                    <a href ="{{ urlFor('showpatents') }}"> Show patents</a> <br>
                     <a href="{{ urlFor('editprofile') }}">Edit profile</a> <br>
                     <a href="{{ urlFor('createpost') }}"> Create new post</a><br>
                     <a href="{{ urlFor('logout') }}">Log out</a> <br>
@@ -39,7 +39,7 @@
 
                 <br>
 
-                <a href="/users"> About Us </a> <br>
+                <a href="/aboutus"> About Us </a> <br>
             </div>
 
             <div id="content">

@@ -57,7 +57,7 @@ class UserController extends Controller
 
     public function all()
     {
-        $this->render('users.twig', [
+        $this->render('aboutus.twig', [
             'users' => $this->userRepository->all()
         ]);
     }

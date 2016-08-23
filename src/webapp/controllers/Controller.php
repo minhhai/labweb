@@ -8,14 +8,14 @@ class Controller
     
     protected $userRepository;
     protected $auth;
-    protected $postRepository;
+    protected $patentRepository;
 
     public function __construct()
     {
         $this->app = \Slim\Slim::getInstance();
         $this->userRepository = $this->app->userRepository;
-        $this->postRepository = $this->app->postRepository;
-        $this->postRepository = $this->app->postRepository;
+        $this->patentRepository = $this->app->patentRepository;
+        $this->patentRepository = $this->app->patentRepository;
         $this->commentRepository = $this->app->commentRepository;
         $this->auth = $this->app->auth;
         $this->hash = $this->app->hash;

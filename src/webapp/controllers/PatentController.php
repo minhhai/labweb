@@ -2,12 +2,12 @@
 
 namespace tdt4237\webapp\controllers;
 
-use tdt4237\webapp\models\Post;
+use tdt4237\webapp\models\Patent;
 use tdt4237\webapp\controllers\UserController;
 use tdt4237\webapp\models\Comment;
-use tdt4237\webapp\validation\PostValidation;
+use tdt4237\webapp\validation\PatentValidation;
 
-class PostController extends Controller
+class PatentController extends Controller
 {
 
     public function __construct()
@@ -18,16 +18,16 @@ class PostController extends Controller
 
     public function index()
     {
-        $posts = $this->postRepository->all();
+        $patent = $this->patentRepository->all();
 
-        $posts->sortByDate();
-        $this->render('posts.twig', ['posts' => $posts]);
+        //$patent->sortByDate();
+        $this->render('patents.twig', ['patent' => $patent]);
     }
 
-    public function show($postId)
+    public function show($patentId)
     {
-        $post = $this->postRepository->find($postId);
-        $comments = $this->commentRepository->findByPostId($postId);
+        $patent = $this->patentRepository->find($patentId);
+        //$comments = $this->commentRepository->findByPatentId($patentId);
         $request = $this->app->request;
         $message = $request->get('msg');
         $variables = [];

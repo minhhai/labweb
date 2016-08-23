@@ -6,7 +6,7 @@ use Slim\Views\TwigExtension;
 use tdt4237\webapp\Auth;
 use tdt4237\webapp\Hash;
 use tdt4237\webapp\repository\UserRepository;
-use tdt4237\webapp\repository\PostRepository;
+use tdt4237\webapp\repository\PatentRepository;
 use tdt4237\webapp\repository\CommentRepository;
 
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -42,7 +42,7 @@ date_default_timezone_set("Europe/Oslo");
 
 $app->hash = new Hash();
 $app->userRepository = new UserRepository($app->db);
-$app->postRepository = new PostRepository($app->db);
+$app->patentRepository = new PatentRepository($app->db);
 $app->commentRepository = new CommentRepository($app->db);
 $app->auth = new Auth($app->userRepository, $app->hash);
 
@@ -74,16 +74,16 @@ $app->post('/forgot', $ns . 'forgotPasswordController:submitName');
 $app->get('/user/:username', $ns . 'UserController:show')->name('showuser');
 
 // Show all users
-$app->get('/users', $ns . 'UserController:all');
+$app->get('/aboutus', $ns . 'UserController:all');
 
 // Posts
-$app->get('/posts/new', $ns . 'PostController:showNewPostForm')->name('createpost');
-$app->post('/posts/new', $ns . 'PostController:create');
+$app->get('/posts/new', $ns . 'PatentController:showNewPostForm')->name('createpost');
+$app->post('/posts/new', $ns . 'PatentController:create');
 
-$app->get('/posts', $ns . 'PostController:index')->name('showposts');
+$app->get('/patents', $ns . 'PatentController:index')->name('showpatents');
 
-$app->get('/posts/:postid', $ns . 'PostController:show');
-$app->post('/posts/:postid', $ns . 'PostController:addComment');
+$app->get('/posts/:postid', $ns . 'PatentController:show');
+$app->post('/posts/:postid', $ns . 'PatentController:addComment');
 
 // Log out
 $app->get('/logout', $ns . 'UserController:logout')->name('logout');

@@ -2,14 +2,14 @@
 
 namespace tdt4237\webapp\validation;
 
-use tdt4237\webapp\models\Post;
+use tdt4237\webapp\models\Patent;
 
-class PostValidation {
+class PatentValidation {
 
     private $validationErrors = [];
 
-    public function __construct($author, $title, $content) {
-        return $this->validate($author, $title, $content);
+    public function __construct($company, $title, $description) {
+        return $this->validate($company, $title);
     }
 
     public function isGoodToGo()
@@ -22,18 +22,14 @@ class PostValidation {
     return $this->validationErrors;
     }
 
-    public function validate($author, $title, $content)
+    public function validate($company, $title)
     {
-        if ($author == null) {
-            $this->validationErrors[] = "Author needed";
+        if ($company == null) {
+            $this->validationErrors[] = "Company/User needed";
 
         }
         if ($title == null) {
             $this->validationErrors[] = "Title needed";
-        }
-
-        if ($content == null) {
-            $this->validationErrors[] = "Text needed";
         }
 
         return $this->validationErrors;

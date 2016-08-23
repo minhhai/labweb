@@ -1,0 +1,27 @@
+{% extends 'base.twig' %}
+
+{% block content %}
+
+    <h2>Patents</h2>
+    <div class="patents">
+    {% if patent %}
+    <table>
+    	<tr>
+    		<th> Title </th>
+    		<th> Company/User </th>
+    		<th> Description </th>
+    	</tr>
+    	{% for patents in patent %}
+    		<tr>
+    			<td> {{ patents.title|raw }} </td>
+    			<td> {{ patents.company|raw }} </td>
+    			<td> {{ patents.description|raw }}</td>
+    		</tr>
+    	{% endfor %}
+    </table>
+    {% else %}
+        There are no patents registered yet!
+    {% endif %}
+    </div>
+
+{% endblock %}
