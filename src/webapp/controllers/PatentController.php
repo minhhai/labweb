@@ -19,31 +19,25 @@ class PatentController extends Controller
     public function index()
     {
         $patent = $this->patentRepository->all();
-
-        //$patent->sortByDate();
+        $patent->sortByDate();
         $this->render('patents.twig', ['patent' => $patent]);
     }
 
     public function show($patentId)
     {
         $patent = $this->patentRepository->find($patentId);
-        //$comments = $this->commentRepository->findByPatentId($patentId);
+        //$user   = $this->userRepository ->findByUser($username);
         $request = $this->app->request;
         $message = $request->get('msg');
         $variables = [];
-
 
         if($message) {
             $variables['msg'] = $message;
 
         }
 
-
-
-
-        $this->render('showpost.twig', [
-            'post' => $post,
-            'comments' => $comments,
+        $this->render('showpatent.twig', [
+            'patent' => $patent,
             'flash' => $variables
         ]);
 
@@ -69,15 +63,15 @@ class PatentController extends Controller
 
     }
 
-    public function showNewPostForm()
+    public function showNewPatentForm()
     {
 
         if ($this->auth->check()) {
             $username = $_SESSION['user'];
-            $this->render('createpost.twig', ['username' => $username]);
+            $this->render('registerpatent.twig', ['username' => $username]);
         } else {
 
-            $this->app->flash('error', "You need to be logged in to create a post");
+            $this->app->flash('error', "You need to be logged in to register a patent");
             $this->app->redirect("/");
         }
 
@@ -86,31 +80,49 @@ class PatentController extends Controller
     public function create()
     {
         if ($this->auth->guest()) {
-            $this->app->flash("info", "You must be logged on to create a post");
+            $this->app->flash("info", "You must be logged on to register a patent");
             $this->app->redirect("/login");
         } else {
-            $request = $this->app->request;
-            $title = $request->post('title');
-            $content = $request->post('content');
-            $author = $request->post('author');
-            $date = date("dmY");
+            $request     = $this->app->request;
+            $title       = $request->post('title');
+            $description = $request->post('description');
+            $company     = $request->post('company');
+            $date        = date("dmY");
+            $file = $this -> startUpload();
 
-            $validation = new PostValidation($title, $author, $content);
+            $validation = new PatentValidation($title, $description);
             if ($validation->isGoodToGo()) {
-                $post = new Post();
-                $post->setAuthor($author);
-                $post->setTitle($title);
-                $post->setContent($content);
-                $post->setDate($date);
-                $savedPost = $this->postRepository->save($post);
-                $this->app->redirect('/posts/' . $savedPost . '?msg="Post succesfully posted');
+                $patent = new Patent($company, $title, $description, $date, $file);
+                $patent->setCompany($company);
+                $patent->setTitle($title);
+                $patent->setDescription($description);
+                $patent->setDate($date);
+                $patent->setFile($file);
+                $savedPatent = $this->patentRepository->save($patent);
+                $this->app->redirect('/patent/' . $savedPatent . '?msg="Patent succesfully registered');
             }
         }
 
             $this->app->flashNow('error', join('<br>', $validation->getValidationErrors()));
-            $this->app->render('createpost.twig');
-            // RENDER HERE
+            $this->app->render('registerpatent.twig');
+    }
 
+    public function startUpload()
+    { 
+        if(isset($_POST['submit']))
+        {
+            $target_dir =  getcwd()."\web\uploads\\";
+            $targetFile = $target_dir . basename($_FILES['uploaded']['name']);
+            if(!move_uploaded_file($_FILES['uploaded']['tmp_name'], $targetFile))
+            {
+                $this->app->flash('info', 'The file was uploaded');
+                return $targetFile;
+            }
+            else
+            {
+                $this->app->flash('error', 'The file was not uploaded');
+            }
+        }
     }
 }
 

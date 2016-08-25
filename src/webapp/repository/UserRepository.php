@@ -56,7 +56,6 @@ class UserRepository
         $row = $result->fetch();
         $name = $row['first_name'] + " " + $row['last_name'];
         return $name;
-
     }
 
     public function findByUser($username)
@@ -69,7 +68,6 @@ class UserRepository
             return false;
         }
 
-
         return $this->makeUserFromRow($row);
     }
 
@@ -79,8 +77,6 @@ class UserRepository
             sprintf(self::DELETE_BY_NAME, $username)
         );
     }
-
-
 
     public function all()
     {

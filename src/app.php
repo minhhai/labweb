@@ -12,7 +12,7 @@ use tdt4237\webapp\repository\CommentRepository;
 require_once __DIR__ . '/../vendor/autoload.php';
 
 chdir(__DIR__ . '/../');
-chmod(__DIR__ . '/../web/uploads', 0700);
+chmod(__DIR__ . '/../web/uploads', 0777);
 
 $app = new Slim([
     'templates.path' => __DIR__.'/webapp/templates/',
@@ -63,13 +63,6 @@ $app->post('/user/new', $ns . 'UserController:create');
 $app->get('/user/edit', $ns . 'UserController:showUserEditForm')->name('editprofile');
 $app->post('/user/edit', $ns . 'UserController:receiveUserEditForm');
 
-// Forgot password
-$app->get('/forgot/:username', $ns . 'forgotPasswordController:confirmForm');
-$app->get('/forgot', $ns . 'ForgotPasswordController:forgotPassword');
-
-$app->post('/forgot/:username', $ns . 'forgotPasswordController:confirm');
-$app->post('/forgot', $ns . 'forgotPasswordController:submitName');
-
 // Show a user by name
 $app->get('/user/:username', $ns . 'UserController:show')->name('showuser');
 
@@ -77,12 +70,12 @@ $app->get('/user/:username', $ns . 'UserController:show')->name('showuser');
 $app->get('/aboutus', $ns . 'UserController:all');
 
 // Posts
-$app->get('/posts/new', $ns . 'PatentController:showNewPostForm')->name('createpost');
-$app->post('/posts/new', $ns . 'PatentController:create');
+$app->get('/patent/new', $ns . 'PatentController:showNewPatentForm')->name('registerpatent');
+$app->post('/patent/new', $ns . 'PatentController:create');
 
-$app->get('/patents', $ns . 'PatentController:index')->name('showpatents');
+$app->get('/patent', $ns . 'PatentController:index')->name('showpatents');
 
-$app->get('/posts/:postid', $ns . 'PatentController:show');
+$app->get('/patent/:patentid', $ns . 'PatentController:show');
 $app->post('/posts/:postid', $ns . 'PatentController:addComment');
 
 // Log out

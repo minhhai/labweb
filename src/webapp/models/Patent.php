@@ -4,13 +4,21 @@ namespace tdt4237\webapp\models;
 
 class Patent
 {
-    protected $patentId;
+    protected $patentId = null;
     protected $title;
     protected $file;
     protected $company;
     protected $description;
     protected $date;
 
+    function __construct($company, $title, $description, $date, $file)
+    {
+        $this->company = $company;
+        $this->title = $title;
+        $this->description = $description;
+        $this->date = $date;
+        $this->file = $file;
+    }
 
     public function getPatentId() {
         return $this->patentId;
@@ -22,7 +30,7 @@ class Patent
         return $this;
     }
 
-    public function getComapny() {
+    public function getCompany() {
         return $this->company;
     }
 

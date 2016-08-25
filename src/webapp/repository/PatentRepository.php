@@ -12,30 +12,31 @@ class PatentRepository
     /**
      * @var PDO
      */
-    private $db;
+    private $pdo;
 
-    public function __construct(PDO $db)
+    public function __construct(PDO $pdo)
     {
-        $this->db = $db;
+        $this->pdo = $pdo;
     }
-    
-    public static function create($id, $company, $title, $description, $date, $file)
+
+    public function makePatentFromRow(array $row)
     {
-        $patent = new Patent;
-        
-        return $patent
-            ->setPatentId($id)
-            ->setCompany($company)
-            ->setTitle($title)
-            ->setDescription($description)
-            ->setDate($date)
-            ->setFile($file);
+        $patent = new Patent($row['patentId'], $row['company'], $row['title'], $row['description'], $row['date'], $row['file']);
+        $patent->setPatentId($row['patentId']);
+        $patent->setCompany($row['company']);
+        $patent->setTitle($row['title']);
+        $patent->setDescription($row['description']);
+        $patent->setDate($row['date']);
+        $patent->setFile($row['file']);
+
+        return $patent;
     }
+
 
     public function find($patentId)
     {
         $sql  = "SELECT * FROM patent WHERE patentId = $patentId";
-        $result = $this->db->query($sql);
+        $result = $this->pdo->query($sql);
         $row = $result->fetch();
 
         if($row === false) {
@@ -49,7 +50,7 @@ class PatentRepository
     public function all()
     {
         $sql   = "SELECT * FROM patent";
-        $results = $this->db->query($sql);
+        $results = $this->pdo->query($sql);
 
         if($results === false) {
             return [];
@@ -62,25 +63,13 @@ class PatentRepository
         }
 
         return new PatentCollection(
-            array_map([$this, 'makeFromRow'], $fetch)
-        );
-    }
-
-    public function makeFromRow($row)
-    {
-        return static::create(
-            $row['patentId'],
-            $row['company'],
-            $row['title'],
-            $row['file'],
-            $row['description'],
-            $row['date']
+            array_map([$this, 'makePatentFromRow'], $fetch)
         );
     }
 
     public function deleteByPatentid($patentId)
     {
-        return $this->db->exec(
+        return $this->pdo->exec(
             sprintf("DELETE FROM patent WHERE patentid='%s';", $patentId));
     }
 
@@ -91,13 +80,14 @@ class PatentRepository
         $company        = $patent->getCompany();
         $description    = $patent->getDescription();
         $date           = $patent->getDate();
+        $file           = $patent->getFile();
 
         if ($patent->getPatentId() === null) {
-            $query = "INSERT INTO patent (company, date, title, description) "
-                . "VALUES ('$company', '$date', '$title', '$description')";
+            $query = "INSERT INTO patent (company, date, title, description, file) "
+                . "VALUES ('$company', '$date', '$title', '$description', '$file')";
         }
 
-        $this->db->exec($query);
-        return $this->db->lastInsertId();
+        $this->pdo->exec($query);
+        return $this->pdo->lastInsertId();
     }
 }

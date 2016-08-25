@@ -1,0 +1,24 @@
+{% extends 'base.twig' %}
+
+{% block content %}
+
+    <h2>Register patent</h2>
+    
+    <form action="#" method="POST" enctype="multipart/form-data">
+        <div id="flasherror">{{ flash.error }}</div>
+
+        <label> Title: </label>
+        <input type = "text" name="title"> <br />
+
+        <label> Company/User: </label>
+        <input type="text" name="company"> <br />
+
+        <label> Select patent to upload: </label>
+        <input type="file" name="uploaded"> <br />
+
+        <label> Description: </label>
+        <textarea cols="40" rows="10" name="description"> </textarea><br />
+
+        <input type="submit" name="submit" value="Register patent">
+    </form>
+{% endblock %}

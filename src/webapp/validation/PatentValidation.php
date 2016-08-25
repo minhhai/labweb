@@ -8,7 +8,7 @@ class PatentValidation {
 
     private $validationErrors = [];
 
-    public function __construct($company, $title, $description) {
+    public function __construct($company, $title) {
         return $this->validate($company, $title);
     }
 
