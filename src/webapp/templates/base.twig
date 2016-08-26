@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <link rel="stylesheet" href="/css/style.css"/>
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.3/semantic.min.css"/>
 
         {% set titleVar = 'Patentsy AS' %}
 
@@ -11,26 +11,32 @@
         <script>
         </script>
     </head>
+
     <body>
-        <div id="logo">
-            <a href="/">
-                <img src="/images/helseweb.jpg">
-                <h1>{{ title|default(titleVar) }}</h1>
-            </a>
+        <div class="ui red fixed inverted menu">
+            <div class="ui container">
+                <a href="/" class="header item">
+                    {{ title|default(titleVar) }}
+                </a>
+                <a href="#" class="item">About us</a>
+                <div class="right menu">
+                    {% if isLoggedIn %}
+                        <a href="#" class="item">Logged in as {{ loggedInUsername }}</a>
+                        <a href="{{ urlFor('logout') }}" class="item">Log out</a>
+                    {% else %}
+                        <a href="{{ urlFor('newuser') }}" class="item">Create account</a>
+                        <a href="/login" class="item">Log in</a>
+                    {% endif %}
+                </div>
+            </div>
         </div>
 
         <div id="container">
             <div id="navbar">
                 {% if isLoggedIn %}
-                    Logged in as {{ loggedInUsername }}.<br>
                     <a href ="{{ urlFor('showpatents') }}"> Show patents</a> <br>
                     <a href="{{ urlFor('editprofile') }}">Edit profile</a> <br>
                     <a href="{{ urlFor('registerpatent') }}"> Register patent</a><br>
-                    <a href="{{ urlFor('logout') }}">Log out</a> <br>
-                {% else %}
-                    <a href="{{ urlFor('newuser') }}">Create user</a> <br />
-                    <a href="/login">Login</a> <br>
-
                 {% endif %}
 
                 {% if isAdmin %}
