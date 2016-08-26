@@ -3,8 +3,12 @@
 {% block content %}
     <h3> {{ flash.msg|raw }}</h3>
     {% if patent %}
-        <h2>{{ patent.title}}</h2>
-        <h3> by {{patent.company|raw}}</h3>
+        <h2>{{ patent.title }}</h2>
+        <h3> Owner: {{ patent.company }}</h3>
+        {% if user.username == patent.company or user.company == patent.company %}
+        <h3> File: <a href="{{ patent.file }}"> Patent </a> </h3>
+        {% endif %}
+        <h3 class=description> Description: </h3>
         <p> {{ patent.description }}</p>
 
     {% else %}

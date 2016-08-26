@@ -13,8 +13,12 @@
     	</tr>
     	{% for patents in patent %}
     		<tr>
-    			<td> {{ patents.title|raw }} </td>
+    			<td> <a href="/patent/{{patents.patentId}}">{{ patents.title }}</a> </td>
+                {% if patents.company == user.username %}
+                <td><a href="/user/{{ patents.company|raw }}">{{ patents.company|raw }}</a></td>
+                {% else %}
     			<td> {{ patents.company|raw }} </td>
+                {% endif %}
     			<td> {{ patents.description|raw }}</td>
     		</tr>
     	{% endfor %}

@@ -11,31 +11,28 @@
     <table>
         <tr>
             <th>Id</th>
-            <th>{{ user.userid }}</th>
+            <th>{{ user.userid|raw }}</th>
             <tr></tr>
             <th>Username:</th>
-            <td>{{ user.username }}</th>
+            <td>{{ user.username|raw }}</th>
             <tr></tr>
-            <th>Full Name:</th>
-            <td>{{ user.fullname }}</th>
+            <th>First Name:</th>
+            <td>{{ user.firstName }}</td>
             <tr></tr>
-            <th>Address:</th>
-            <td>{{ user.address }} </td>
+            <th>Last Name:</th>
+            <td>{{ user.lastName }}</td>
             <tr></tr>
-            <th>Postcode:</th>
-            <td>{{  user.postcode }}</td>
+            <th>Company:</th>
+            <td>{{ user.company|raw }}</td>
+            <tr></tr>
+            <th>Phone:</th>
+            <td>{{ user.phone|raw }}</td>
             <tr></tr>
             <th>Hash:</th>
             <td><!-- {{ user.hash|raw }} -->********************************(not shown)</td>
             <tr></tr>
             <th>Email:</th>
             <td>{{ user.email }}</td>
-            <tr></tr>
-            <th>Bio:</th>
-            <td>{{ user.bio}}</td>
-            <tr></tr>
-            <th>Age:</th>
-            <td>{{ user.age }}</td>
             <tr></tr>
     </table>
 {% else %}

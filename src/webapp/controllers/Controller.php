@@ -16,7 +16,6 @@ class Controller
         $this->userRepository = $this->app->userRepository;
         $this->patentRepository = $this->app->patentRepository;
         $this->patentRepository = $this->app->patentRepository;
-        $this->commentRepository = $this->app->commentRepository;
         $this->auth = $this->app->auth;
         $this->hash = $this->app->hash;
     }

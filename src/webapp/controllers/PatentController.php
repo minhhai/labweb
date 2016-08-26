@@ -4,7 +4,6 @@ namespace tdt4237\webapp\controllers;
 
 use tdt4237\webapp\models\Patent;
 use tdt4237\webapp\controllers\UserController;
-use tdt4237\webapp\models\Comment;
 use tdt4237\webapp\validation\PatentValidation;
 
 class PatentController extends Controller
@@ -19,14 +18,20 @@ class PatentController extends Controller
     public function index()
     {
         $patent = $this->patentRepository->all();
-        $patent->sortByDate();
-        $this->render('patents.twig', ['patent' => $patent]);
+        if($patent != null)
+        {
+            $patent->sortByDate();
+        }
+        $username = $_SESSION['user'];
+        $user = $this->userRepository->findByUser($username); 
+        $this->render('patents.twig', ['patent' => $patent, 'user' => $user]);
     }
 
     public function show($patentId)
     {
         $patent = $this->patentRepository->find($patentId);
-        //$user   = $this->userRepository ->findByUser($username);
+        $username = $_SESSION['user'];
+        $user = $this->userRepository->findByUser($username); 
         $request = $this->app->request;
         $message = $request->get('msg');
         $variables = [];
@@ -38,28 +43,9 @@ class PatentController extends Controller
 
         $this->render('showpatent.twig', [
             'patent' => $patent,
+            'user' => $user,
             'flash' => $variables
         ]);
-
-    }
-
-    public function addComment($postId)
-    {
-
-        if(!$this->auth->guest()) {
-
-            $comment = new Comment();
-            $comment->setAuthor($_SESSION['user']);
-            $comment->setText($this->app->request->post("text"));
-            $comment->setDate(date("dmY"));
-            $comment->setPost($postId);
-            $this->commentRepository->save($comment);
-            $this->app->redirect('/posts/' . $postId);
-        }
-        else {
-            $this->app->redirect('/login');
-            $this->app->flash('info', 'you must log in to do that');
-        }
 
     }
 
@@ -113,14 +99,9 @@ class PatentController extends Controller
         {
             $target_dir =  getcwd()."\web\uploads\\";
             $targetFile = $target_dir . basename($_FILES['uploaded']['name']);
-            if(!move_uploaded_file($_FILES['uploaded']['tmp_name'], $targetFile))
+            if(move_uploaded_file($_FILES['uploaded']['tmp_name'], $targetFile))
             {
-                $this->app->flash('info', 'The file was uploaded');
                 return $targetFile;
-            }
-            else
-            {
-                $this->app->flash('error', 'The file was not uploaded');
             }
         }
     }

@@ -84,7 +84,7 @@ class User
     }
 
     public function setCompany($company){
-        $this->comapny = $company;
+        $this->company = $company;
     }
 
     public function getFirstName() {

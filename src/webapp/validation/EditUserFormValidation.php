@@ -44,7 +44,7 @@ class EditUserFormValidation
 
     private function validateCompany($company)
     {
-        if(strlen($company) > 0 && !preg_match('A-Za-z', $company))
+        if(strlen($company) > 0 && (!preg_match('/[^0-9]/',$company)))
         {
             $this->validationErrors[] = 'Company can only contain letters';
         }

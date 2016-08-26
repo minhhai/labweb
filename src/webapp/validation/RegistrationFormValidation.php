@@ -47,7 +47,7 @@ class RegistrationFormValidation
             $this->validationErrors[] = "Phone number must be exactly eight digits";
         }
 
-        if(strlen($company) > 0 && !preg_match('A-Za-z', $company))
+        if(strlen($company) > 0 && (!preg_match('/[^0-9]/',$company)))
         {
             $this->validationErrors[] = 'Company can only contain letters';
         }

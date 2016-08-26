@@ -48,8 +48,8 @@ class Sql
     }
 
     static function insertPatents() {
-        $q4 = "INSERT INTO patent(company, title, file, description, date) VALUES ('Systemmanager', 'Search System', 'web/uploads/test.txt', 'New algorithm making search as fast as speed of light.', '20062016')";
-        $q5 = "INSERT INTO patent(company, title, file, description, date) VALUES ('bjarni', 'New litteum battery technology', 'web/uploads/test.txt', 'A new technology that will take batteries through a new revolution.', '26072016')";
+        $q4 = "INSERT INTO patent(company, title, file, description, date) VALUES ('Patentsy AS', 'Search System', 'web/uploads/test.txt', 'New algorithm making search as fast as speed of light.', '20062016')";
+        $q5 = "INSERT INTO patent(company, title, file, description, date) VALUES ('Patentsy AS', 'New litteum battery technology', 'web/uploads/test.txt', 'A new technology that will take batteries through a new revolution.', '26072016')";
 
         self::$pdo->exec($q4);
         self::$pdo->exec($q5);

@@ -26,7 +26,7 @@ class AdminController extends Controller
 
         $variables = [
             'users' => $this->userRepository->all(),
-            'posts' => $this->postRepository->all()
+            'patent' => $this->patentRepository->all()
         ];
         $this->render('admin.twig', $variables);
     }
@@ -43,10 +43,10 @@ class AdminController extends Controller
         $this->app->redirect('/admin');
     }
 
-    public function deletePost($postId)
+    public function deletePatent($patentId)
     {
-        if ($this->postRepository->deleteByPostid($postId) === 1) {
-            $this->app->flash('info', "Sucessfully deleted '$postId'");
+        if ($this->patentRepository->deleteByPatentid($patentId) === 1) {
+            $this->app->flash('info', "Sucessfully deleted '$patentId'");
             $this->app->redirect('/admin');
             return;
         }

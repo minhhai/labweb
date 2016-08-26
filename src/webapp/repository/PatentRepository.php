@@ -44,7 +44,7 @@ class PatentRepository
         }
 
 
-        return $this->makeFromRow($row);
+        return $this->makePatentFromRow($row);
     }
 
     public function all()

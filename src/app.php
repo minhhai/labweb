@@ -7,7 +7,6 @@ use tdt4237\webapp\Auth;
 use tdt4237\webapp\Hash;
 use tdt4237\webapp\repository\UserRepository;
 use tdt4237\webapp\repository\PatentRepository;
-use tdt4237\webapp\repository\CommentRepository;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -43,7 +42,6 @@ date_default_timezone_set("Europe/Oslo");
 $app->hash = new Hash();
 $app->userRepository = new UserRepository($app->db);
 $app->patentRepository = new PatentRepository($app->db);
-$app->commentRepository = new CommentRepository($app->db);
 $app->auth = new Auth($app->userRepository, $app->hash);
 
 $ns ='tdt4237\\webapp\\controllers\\';
@@ -66,24 +64,23 @@ $app->post('/user/edit', $ns . 'UserController:receiveUserEditForm');
 // Show a user by name
 $app->get('/user/:username', $ns . 'UserController:show')->name('showuser');
 
-// Show all users
+// Show About Us
 $app->get('/aboutus', $ns . 'UserController:all');
 
-// Posts
+// Patents
 $app->get('/patent/new', $ns . 'PatentController:showNewPatentForm')->name('registerpatent');
 $app->post('/patent/new', $ns . 'PatentController:create');
 
 $app->get('/patent', $ns . 'PatentController:index')->name('showpatents');
 
 $app->get('/patent/:patentid', $ns . 'PatentController:show');
-$app->post('/posts/:postid', $ns . 'PatentController:addComment');
 
 // Log out
 $app->get('/logout', $ns . 'UserController:logout')->name('logout');
 
 // Admin restricted area
 $app->get('/admin', $ns . 'AdminController:index')->name('admin');
-$app->get('/admin/delete/post/:postid', $ns . 'AdminController:deletepost');
+$app->get('/admin/delete/patent/:patentid', $ns . 'AdminController:deletepatent');
 $app->get('/admin/delete/:username', $ns . 'AdminController:delete');
 
 
