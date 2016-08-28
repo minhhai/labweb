@@ -11,14 +11,13 @@
         </div>
 
         <div id="primary-content" class="ui text container">
+            {% if flash.info %}
+                <div class="ui warning message">
+                    {{ flash.info|raw }}
+                </div>
+            {% endif %}
+
             {% block content %}{% endblock %}
-        </div>
-
-        <div id="container">
-            <div id="content">
-                <div id="flashinfo">{{ flash.info|raw }}</div>
-
-            </div>
         </div>
 
         <div class="ui inverted vertical footer segment">
