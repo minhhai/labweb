@@ -1,43 +1,59 @@
 {% extends 'layouts/base.twig' %}
 
 {% block content %}
+    <h2>Admin section</h2>
 
-<h2>Admin section</h2>
+    <h3>Users</h3>
 
-{% if users %}
-    <table>
-    <tr>
-        <th>Id</th>
-        <th>Username</th>
-        <th>Delete</th>
-    </tr>
-    {% for user in users %}
-        <tr>
-            <td>{{ user.userid|raw }}</td>
-            <td><a href="/user/{{ user.username|raw }}">{{ user.username|raw }}</a></td>
-            <td><a href="/admin/delete/{{ user.username|raw }}">Delete user</a></td>
-        </tr>
-    {% endfor %}
+    <table class="ui single line table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Username</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.userid|raw }}</td>
+                    <td><a href="/user/{{ user.username|raw }}">{{ user.username|raw }}</a></td>
+                    <td><a href="/admin/delete/{{ user.username|raw }}">Delete user</a></td>
+                </tr>
+            {% endfor %}
+
+            {% if users is empty %}
+                <tr>
+                    <td colspan="3">The users table is empty.</td>
+                </tr>
+            {% endif %}
+        </tbody>
     </table>
-{% else %}
-    The users table is empty.
-{% endif %}
 
-{% if patent %}
-    <table class="adminPatents">
-        <tr>
-            <th> Title</th>
-            <th> Delete</th>
-        </tr>
-        {% for patents in patent %}
-        <tr>
-            <td><a href="/patent/{{ patents.patentId|raw }}">{{ patents.title }}</a></td>
-            <td><a href="/admin/delete/patent/{{ patents.patentId|raw }}">Delete patent</a></td>
-        </tr>
-        {% endfor %}
+    <h3>Patens</h3>
+
+    <table class="ui single line table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for patents in patent %}
+                <tr>
+                    <td><a href="/patent/{{ patents.patentId|raw }}">{{ patents.title }}</a></td>
+                    <td><a href="/admin/delete/patent/{{ patents.patentId|raw }}">Delete patent</a></td>
+                </tr>
+            {% endfor %}
+
+            {% if patent is empty %}
+                <tr>
+                    <td colspan="2">There are no patents!</td>
+                </tr>
+            {% endif %}
+        </tbody>
     </table>
-{% else %}
-    There are no patents!
-{% endif %}
-
 {% endblock %}
