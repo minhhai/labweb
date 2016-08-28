@@ -2,7 +2,8 @@
     <a href="/" class="header item">
         {{ title|default(titleVar) }}
     </a>
-    <a href="#" class="item">About us</a>
+    <a href="/aboutus" class="item">About us</a>
+    <a href="{{ urlFor('showpatents') }}" class="item">Patents</a>
     <div class="right menu">
         {% if isLoggedIn %}
             <a href="#" class="item">Logged in as {{ loggedInUsername }}</a>

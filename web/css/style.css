@@ -1,4 +1,7 @@
-#primary-content { margin: 20px 0 50px 0; }
+#primary-content {
+    margin: 50px 0;
+    padding-top: 0;
+}
 
 @media (min-height: 320px) {
     .ui.footer {
