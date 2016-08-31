@@ -75,3 +75,33 @@ table {
     border-collapse: collapse;
     margin-top: -15px;
 }
+
+.patents table
+{
+    margin-top: 10px;
+}
+
+th
+{
+    text-align: left;
+}
+
+th, td
+{
+    border-bottom: 1px solid #ddd;
+    padding-left: 50px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.description
+{
+    margin-top: 35px;
+}
+
+.adminPatents
+{
+    margin-top: 50px;
+}
+
+
