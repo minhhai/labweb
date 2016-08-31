@@ -1,27 +1,51 @@
-{% extends 'base.twig' %}
+{% extends 'layouts/promotional.twig' %}
 
 {% block content %}
+    <h2>New user</h2>
 
-<h2>New user</h2>
+    {% if flash.error %}
+        <div class="ui error message">
+            {{ flash.error|raw }}
+        </div>
+    {% endif %}
 
-<b>{{ flash.info}}</b> <br />
-<b>{{ flash.error }}</b> <br />
+    {% if flash.info %}
+        <div class="ui warning message">
+            {{ flash.info|raw }}
+        </div>
+    {% endif %}
 
-<form action="" method="POST">
+    <form action="" method="post" class="ui form">
+        <div class="field">
+            <label>Username*</label>
+            <input type="text" name="user" value="{{ username }}">
+        </div>
 
-    <label>Username:* </label>
-    <input type="text" name="user" value="{{ username }}"> <br />
-    <label>Password:* </label>
-    <input type="text" name="pass"> <br />
-    <label>First name:* (Not visible to others)</label>
-    <input type="text" name = "first_name"><br/>
-    <label>Last name:* (Not visible to others)</label>
-    <input type="text" name = "last_name"><br/>
-    <label> Phone: (Only eight digits please)</label>
-    <input type = "text" name = "phone"><br/>
-    <label> Company: </label>
-    <input type = "text" name = "company"><br/>
-    <input type="submit" name="submit" value="Create new user"> <br/>
+        <div class="field">
+            <label>Password*</label>
+            <input type="text" name="pass">
+        </div>
 
-</form>
+        <div class="field">
+            <label>First name* (Not visible to others)</label>
+            <input type="text" name="first_name">
+        </div>
+
+        <div class="field">
+            <label>Last name* (Not visible to others)</label>
+            <input type="text" name="last_name">
+        </div>
+
+        <div class="field">
+            <label>Phone (Only eight digits please)</label>
+            <input type="text" name="phone">
+        </div>
+
+        <div class="field">
+            <label>Company</label>
+            <input type="text" name="company">
+        </div>
+
+        <input type="submit" name="submit" value="Create new user" class="positive ui button">
+    </form>
 {% endblock %}

@@ -1,42 +1,65 @@
-{% extends 'base.twig' %}
+{% extends 'layouts/base.twig' %}
 
 {% block content %}
+    <h2>User</h2>
 
-<h2>User</h2>
+    {% if flash.error %}
+        <div class="ui error message">
+            {{ flash.error }}
+        </div>
+    {% endif %}
 
-{{ flash.info}} <br />
-{{ flash.error}} <br />
+    {% if flash.info %}
+        <div class="ui warning message">
+            {{ flash.info|raw }}
+        </div>
+    {% endif %}
 
-{% if user %}
-    <table>
-        <tr>
-            <th>Id</th>
-            <th>{{ user.userid|raw }}</th>
-            <tr></tr>
-            <th>Username:</th>
-            <td>{{ user.username|raw }}</th>
-            <tr></tr>
-            <th>First Name:</th>
-            <td>{{ user.firstName }}</td>
-            <tr></tr>
-            <th>Last Name:</th>
-            <td>{{ user.lastName }}</td>
-            <tr></tr>
-            <th>Company:</th>
-            <td>{{ user.company|raw }}</td>
-            <tr></tr>
-            <th>Phone:</th>
-            <td>{{ user.phone|raw }}</td>
-            <tr></tr>
-            <th>Hash:</th>
-            <td><!-- {{ user.hash|raw }} -->********************************(not shown)</td>
-            <tr></tr>
-            <th>Email:</th>
-            <td>{{ user.email }}</td>
-            <tr></tr>
-    </table>
-{% else %}
-    Could not find a user with username "{{ username|raw }}".
-{% endif %}
+    {% if user %}
+        <table class="ui definition table">
+            <tr>
+                <td>Id</td>
+                <td>{{ user.userid|raw }}</td>
+            </tr>
 
+            <tr>
+                <td>Username</td>
+                <td>{{ user.username|raw }}</td>
+            </tr>
+
+            <tr>
+                <td>First Name</td>
+                <td>{{ user.firstName }}</td>
+            </tr>
+
+            <tr>
+                <td>Last Name</td>
+                <td>{{ user.lastName }}</td>
+            </tr>
+
+            <tr>
+                <td>Company</td>
+                <td>{{ user.company|raw }}</td>
+            </tr>
+
+            <tr>
+                <td>Phone</td>
+                <td>{{ user.phone|raw }}</td>
+            </tr>
+
+            <tr>
+                <td>Hash:</td>
+                <td><!-- {{ user.hash|raw }} -->********************************(not shown)</td>
+            </tr>
+
+            <tr>
+                <td>Email</td>
+                <td>{{ user.email }}</td>
+             </tr>
+        </table>
+    {% else %}
+        <div class="ui error message">
+            Could not find a user with username "{{ username|raw }}".
+        </div>
+    {% endif %}
 {% endblock %}
