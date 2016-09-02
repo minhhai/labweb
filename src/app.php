@@ -65,8 +65,8 @@ $app->get('/users/:username', $ns . 'UsersController:show')->name('showuser');
 $app->get('/users/:username/delete', $ns . 'UsersController:destroy');
 
 // Administer own profile
-$app->get('/profile/edit', $ns . 'UsersController:showUserEditForm')->name('editprofile');
-$app->post('/profile/edit', $ns . 'UsersController:receiveUserEditForm');
+$app->get('/profile/edit', $ns . 'UsersController:edit')->name('editprofile');
+$app->post('/profile/edit', $ns . 'UsersController:update');
 
 // Patents
 $app->get('/patents', $ns . 'PatentsController:index')->name('showpatents');
