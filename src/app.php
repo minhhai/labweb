@@ -51,8 +51,10 @@ $app->get('/', $ns . 'PagesController:frontpage');
 $app->get('/aboutus', $ns . 'PagesController:aboutUs');
 
 // Login form
-$app->get('/login', $ns . 'LoginController:index');
-$app->post('/login', $ns . 'LoginController:login');
+$app->get('/login', $ns . 'SessionsController:new');
+$app->post('/login', $ns . 'SessionsController:create');
+
+$app->get('/logout', $ns . 'SessionsController:destroy')->name('logout');
 
 // New user
 $app->get('/user/new', $ns . 'UserController:index')->name('newuser');
@@ -72,9 +74,6 @@ $app->get('/patents/new', $ns . 'PatentsController:new')->name('registerpatent')
 $app->post('/patents/new', $ns . 'PatentsController:create');
 
 $app->get('/patents/:patentId', $ns . 'PatentsController:show');
-
-// Log out
-$app->get('/logout', $ns . 'UserController:logout')->name('logout');
 
 // Admin restricted area
 $app->get('/admin', $ns . 'AdminController:index')->name('admin');

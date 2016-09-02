@@ -55,12 +55,6 @@ class UserController extends Controller
         $this->render('newUserForm.twig', ['username' => $username]);
     }
 
-    public function logout()
-    {
-        $this->auth->logout();
-        $this->app->redirect('http://google.com');
-    }
-
     public function show($username)
     {
         if ($this->auth->guest()) {
