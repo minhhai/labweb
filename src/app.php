@@ -68,12 +68,14 @@ $app->get('/user/:username', $ns . 'UserController:show')->name('showuser');
 $app->get('/aboutus', $ns . 'UserController:all');
 
 // Patents
-$app->get('/patent/new', $ns . 'PatentController:showNewPatentForm')->name('registerpatent');
-$app->post('/patent/new', $ns . 'PatentController:create');
+$app->get('/patents', $ns . 'PatentsController:index')->name('showpatents');
 
-$app->get('/patent', $ns . 'PatentController:index')->name('showpatents');
+$app->get('/patents/new', $ns . 'PatentsController:new')->name('registerpatent');
+$app->post('/patents/new', $ns . 'PatentsController:create');
 
-$app->get('/patent/:patentid', $ns . 'PatentController:show');
+$app->get('/patents/:patentId', $ns . 'PatentsController:show');
+
+
 
 // Log out
 $app->get('/logout', $ns . 'UserController:logout')->name('logout');

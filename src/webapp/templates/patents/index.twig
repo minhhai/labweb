@@ -15,7 +15,7 @@
         <tbody>
             {% for patents in patent %}
         	<tr>
-        		<td><a href="/patent/{{patents.patentId}}">{{ patents.title }}</a></td>
+        		<td><a href="/patents/{{patents.patentId}}">{{ patents.title }}</a></td>
                 {% if patents.company == user.username %}
                 <td><a href="/user/{{ patents.company|raw }}">{{ patents.company|raw }}</a></td>
                 {% else %}

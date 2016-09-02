@@ -6,7 +6,7 @@ use tdt4237\webapp\models\Patent;
 use tdt4237\webapp\controllers\UserController;
 use tdt4237\webapp\validation\PatentValidation;
 
-class PatentController extends Controller
+class PatentsController extends Controller
 {
 
     public function __construct()
@@ -23,15 +23,15 @@ class PatentController extends Controller
             $patent->sortByDate();
         }
         $username = $_SESSION['user'];
-        $user = $this->userRepository->findByUser($username); 
-        $this->render('patents.twig', ['patent' => $patent, 'user' => $user]);
+        $user = $this->userRepository->findByUser($username);
+        $this->render('patents/index.twig', ['patent' => $patent, 'user' => $user]);
     }
 
     public function show($patentId)
     {
         $patent = $this->patentRepository->find($patentId);
         $username = $_SESSION['user'];
-        $user = $this->userRepository->findByUser($username); 
+        $user = $this->userRepository->findByUser($username);
         $request = $this->app->request;
         $message = $request->get('msg');
         $variables = [];
@@ -41,7 +41,7 @@ class PatentController extends Controller
 
         }
 
-        $this->render('showpatent.twig', [
+        $this->render('patents/show.twig', [
             'patent' => $patent,
             'user' => $user,
             'flash' => $variables
@@ -49,12 +49,12 @@ class PatentController extends Controller
 
     }
 
-    public function showNewPatentForm()
+    public function new()
     {
 
         if ($this->auth->check()) {
             $username = $_SESSION['user'];
-            $this->render('registerpatent.twig', ['username' => $username]);
+            $this->render('patents/new.twig', ['username' => $username]);
         } else {
 
             $this->app->flash('error', "You need to be logged in to register a patent");
@@ -85,16 +85,16 @@ class PatentController extends Controller
                 $patent->setDate($date);
                 $patent->setFile($file);
                 $savedPatent = $this->patentRepository->save($patent);
-                $this->app->redirect('/patent/' . $savedPatent . '?msg="Patent succesfully registered');
+                $this->app->redirect('/patents/' . $savedPatent . '?msg="Patent succesfully registered');
             }
         }
 
             $this->app->flashNow('error', join('<br>', $validation->getValidationErrors()));
-            $this->app->render('registerpatent.twig');
+            $this->app->render('patents/new.twig');
     }
 
     public function startUpload()
-    { 
+    {
         if(isset($_POST['submit']))
         {
             $target_dir =  getcwd()."\web\uploads\\";
@@ -106,4 +106,3 @@ class PatentController extends Controller
         }
     }
 }
-

@@ -44,7 +44,7 @@
         <tbody>
             {% for patents in patent %}
                 <tr>
-                    <td><a href="/patent/{{ patents.patentId|raw }}">{{ patents.title }}</a></td>
+                    <td><a href="/patents/{{ patents.patentId|raw }}">{{ patents.title }}</a></td>
                     <td><a href="/admin/delete/patent/{{ patents.patentId|raw }}">Delete patent</a></td>
                 </tr>
             {% endfor %}
