@@ -46,8 +46,9 @@ $app->auth = new Auth($app->userRepository, $app->hash);
 
 $ns ='tdt4237\\webapp\\controllers\\';
 
-// Home page at http://localhost:8080/
-$app->get('/', $ns . 'IndexController:index');
+// Static pages
+$app->get('/', $ns . 'PagesController:frontpage');
+$app->get('/aboutus', $ns . 'PagesController:aboutUs');
 
 // Login form
 $app->get('/login', $ns . 'LoginController:index');
@@ -64,9 +65,6 @@ $app->post('/user/edit', $ns . 'UserController:receiveUserEditForm');
 // Show a user by name
 $app->get('/user/:username', $ns . 'UserController:show')->name('showuser');
 
-// Show About Us
-$app->get('/aboutus', $ns . 'UserController:all');
-
 // Patents
 $app->get('/patents', $ns . 'PatentsController:index')->name('showpatents');
 
@@ -74,8 +72,6 @@ $app->get('/patents/new', $ns . 'PatentsController:new')->name('registerpatent')
 $app->post('/patents/new', $ns . 'PatentsController:create');
 
 $app->get('/patents/:patentId', $ns . 'PatentsController:show');
-
-
 
 // Log out
 $app->get('/logout', $ns . 'UserController:logout')->name('logout');

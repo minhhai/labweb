@@ -55,13 +55,6 @@ class UserController extends Controller
         $this->render('newUserForm.twig', ['username' => $username]);
     }
 
-    public function all()
-    {
-        $this->render('aboutus.twig', [
-            'users' => $this->userRepository->all()
-        ]);
-    }
-
     public function logout()
     {
         $this->auth->logout();
