@@ -18,8 +18,8 @@
             {% for user in users %}
                 <tr>
                     <td>{{ user.userid|raw }}</td>
-                    <td><a href="/user/{{ user.username|raw }}">{{ user.username|raw }}</a></td>
-                    <td><a href="/admin/delete/{{ user.username|raw }}">Delete user</a></td>
+                    <td><a href="/users/{{ user.username|raw }}">{{ user.username|raw }}</a></td>
+                    <td><a href="/users/{{ user.username|raw }}/delete">Delete user</a></td>
                 </tr>
             {% endfor %}
 

@@ -31,18 +31,6 @@ class AdminController extends Controller
         $this->render('admin.twig', $variables);
     }
 
-    public function delete($username)
-    {
-        if ($this->userRepository->deleteByUsername($username) === 1) {
-            $this->app->flash('info', "Sucessfully deleted '$username'");
-            $this->app->redirect('/admin');
-            return;
-        }
-        
-        $this->app->flash('info', "An error ocurred. Unable to delete user '$username'.");
-        $this->app->redirect('/admin');
-    }
-
     public function deletePatent($patentId)
     {
         if ($this->patentRepository->deleteByPatentid($patentId) === 1) {

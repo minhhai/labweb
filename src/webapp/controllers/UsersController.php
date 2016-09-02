@@ -8,7 +8,7 @@ use tdt4237\webapp\models\User;
 use tdt4237\webapp\validation\EditUserFormValidation;
 use tdt4237\webapp\validation\RegistrationFormValidation;
 
-class UserController extends Controller
+class UsersController extends Controller
 {
 
     public function __construct()
@@ -16,10 +16,35 @@ class UserController extends Controller
         parent::__construct();
     }
 
-    public function index()
+    public function show($username)
     {
         if ($this->auth->guest()) {
-            return $this->render('newUserForm.twig', []);
+            $this->app->flash("info", "You must be logged in to do that");
+            $this->app->redirect("/login");
+
+        } else {
+            $user = $this->userRepository->findByUser($username);
+
+            if ($user != false && $user->getUsername() == $this->auth->getUsername()) {
+
+                $this->render('users/showExtended.twig', [
+                    'user' => $user,
+                    'username' => $username
+                ]);
+            } else if ($this->auth->check()) {
+
+                $this->render('users/show.twig', [
+                    'user' => $user,
+                    'username' => $username
+                ]);
+            }
+        }
+    }
+
+    public function new()
+    {
+        if ($this->auth->guest()) {
+            return $this->render('users/new.twig', []);
         }
 
         $username = $this->auth->user()->getUserName();
@@ -52,44 +77,19 @@ class UserController extends Controller
 
         $errors = join("<br>\n", $validation->getValidationErrors());
         $this->app->flashNow('error', $errors);
-        $this->render('newUserForm.twig', ['username' => $username]);
+        $this->render('users/new.twig', ['username' => $username]);
     }
 
-    public function show($username)
-    {
-        if ($this->auth->guest()) {
-            $this->app->flash("info", "You must be logged in to do that");
-            $this->app->redirect("/login");
-
-        } else {
-            $user = $this->userRepository->findByUser($username);
-
-            if ($user != false && $user->getUsername() == $this->auth->getUsername()) {
-
-                $this->render('showuser.twig', [
-                    'user' => $user,
-                    'username' => $username
-                ]);
-            } else if ($this->auth->check()) {
-
-                $this->render('showuserlite.twig', [
-                    'user' => $user,
-                    'username' => $username
-                ]);
-            }
-        }
-    }
-
-    public function showUserEditForm()
+    public function edit()
     {
         $this->makeSureUserIsAuthenticated();
 
-        $this->render('edituser.twig', [
+        $this->render('users/edit.twig', [
             'user' => $this->auth->user()
         ]);
     }
 
-    public function receiveUserEditForm()
+    public function update()
     {
         $this->makeSureUserIsAuthenticated();
         $user = $this->auth->user();
@@ -112,11 +112,23 @@ class UserController extends Controller
             $this->userRepository->save($user);
 
             $this->app->flashNow('info', 'Your profile was successfully saved.');
-            return $this->render('edituser.twig', ['user' => $user]);
+            return $this->render('users/edit.twig', ['user' => $user]);
         }
 
         $this->app->flashNow('error', join('<br>', $validation->getValidationErrors()));
-        $this->render('edituser.twig', ['user' => $user]);
+        $this->render('users/edit.twig', ['user' => $user]);
+    }
+
+    public function destroy($username)
+    {
+        if ($this->userRepository->deleteByUsername($username) === 1) {
+            $this->app->flash('info', "Sucessfully deleted '$username'");
+            $this->app->redirect('/admin');
+            return;
+        }
+
+        $this->app->flash('info', "An error ocurred. Unable to delete user '$username'.");
+        $this->app->redirect('/admin');
     }
 
     public function makeSureUserIsAuthenticated()
