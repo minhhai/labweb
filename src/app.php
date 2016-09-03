@@ -46,42 +46,39 @@ $app->auth = new Auth($app->userRepository, $app->hash);
 
 $ns ='tdt4237\\webapp\\controllers\\';
 
-// Home page at http://localhost:8080/
-$app->get('/', $ns . 'IndexController:index');
+// Static pages
+$app->get('/', $ns . 'PagesController:frontpage');
+$app->get('/aboutus', $ns . 'PagesController:aboutUs');
 
-// Login form
-$app->get('/login', $ns . 'LoginController:index');
-$app->post('/login', $ns . 'LoginController:login');
+// Authentication
+$app->get('/login', $ns . 'SessionsController:new');
+$app->post('/login', $ns . 'SessionsController:create');
 
-// New user
-$app->get('/user/new', $ns . 'UserController:index')->name('newuser');
-$app->post('/user/new', $ns . 'UserController:create');
+$app->get('/logout', $ns . 'SessionsController:destroy')->name('logout');
 
-// Edit logged in user
-$app->get('/user/edit', $ns . 'UserController:showUserEditForm')->name('editprofile');
-$app->post('/user/edit', $ns . 'UserController:receiveUserEditForm');
+// User management
+$app->get('/users/new', $ns . 'UsersController:new')->name('newuser');
+$app->post('/users/new', $ns . 'UsersController:create');
 
-// Show a user by name
-$app->get('/user/:username', $ns . 'UserController:show')->name('showuser');
+$app->get('/users/:username', $ns . 'UsersController:show')->name('showuser');
 
-// Show About Us
-$app->get('/aboutus', $ns . 'UserController:all');
+$app->get('/users/:username/delete', $ns . 'UsersController:destroy');
+
+// Administer own profile
+$app->get('/profile/edit', $ns . 'UsersController:edit')->name('editprofile');
+$app->post('/profile/edit', $ns . 'UsersController:update');
 
 // Patents
-$app->get('/patent/new', $ns . 'PatentController:showNewPatentForm')->name('registerpatent');
-$app->post('/patent/new', $ns . 'PatentController:create');
+$app->get('/patents', $ns . 'PatentsController:index')->name('showpatents');
 
-$app->get('/patent', $ns . 'PatentController:index')->name('showpatents');
+$app->get('/patents/new', $ns . 'PatentsController:new')->name('registerpatent');
+$app->post('/patents/new', $ns . 'PatentsController:create');
 
-$app->get('/patent/:patentid', $ns . 'PatentController:show');
+$app->get('/patents/:patentId', $ns . 'PatentsController:show');
 
-// Log out
-$app->get('/logout', $ns . 'UserController:logout')->name('logout');
+$app->get('/patents/:patentId/delete', $ns . 'PatentsController:destroy');
 
 // Admin restricted area
 $app->get('/admin', $ns . 'AdminController:index')->name('admin');
-$app->get('/admin/delete/patent/:patentid', $ns . 'AdminController:deletepatent');
-$app->get('/admin/delete/:username', $ns . 'AdminController:delete');
-
 
 return $app;
