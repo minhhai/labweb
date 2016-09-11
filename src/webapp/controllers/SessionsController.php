@@ -4,7 +4,7 @@ namespace tdt4237\webapp\controllers;
 
 use tdt4237\webapp\repository\UserRepository;
 
-class LoginController extends Controller
+class SessionsController extends Controller
 {
 
     public function __construct()
@@ -12,7 +12,7 @@ class LoginController extends Controller
         parent::__construct();
     }
 
-    public function index()
+    public function new()
     {
         if ($this->auth->check()) {
             $username = $this->auth->user()->getUsername();
@@ -21,10 +21,10 @@ class LoginController extends Controller
             return;
         }
 
-        $this->render('login.twig', []);
+        $this->render('sessions/new.twig', []);
     }
 
-    public function login()
+    public function create()
     {
         $request = $this->app->request;
         $user    = $request->post('user');
@@ -46,8 +46,14 @@ class LoginController extends Controller
             $this->app->redirect('/');
             return;
         }
-        
+
         $this->app->flashNow('error', 'Incorrect user/pass combination.');
-        $this->render('login.twig', []);
+        $this->render('sessions/new.twig', []);
+    }
+
+    public function destroy()
+    {
+        $this->auth->logout();
+        $this->app->redirect('http://www.ntnu.no/');
     }
 }

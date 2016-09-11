@@ -6,7 +6,7 @@ use tdt4237\webapp\models\Patent;
 use tdt4237\webapp\controllers\UserController;
 use tdt4237\webapp\validation\PatentValidation;
 
-class PatentController extends Controller
+class PatentsController extends Controller
 {
 
     public function __construct()
@@ -22,16 +22,15 @@ class PatentController extends Controller
         {
             $patent->sortByDate();
         }
-        $username = $_SESSION['user'];
-        $user = $this->userRepository->findByUser($username); 
-        $this->render('patents.twig', ['patent' => $patent, 'user' => $user]);
+        $users = $this->userRepository->all();
+        $this->render('patents/index.twig', ['patent' => $patent, 'users' => $users]);
     }
 
     public function show($patentId)
     {
         $patent = $this->patentRepository->find($patentId);
         $username = $_SESSION['user'];
-        $user = $this->userRepository->findByUser($username); 
+        $user = $this->userRepository->findByUser($username);
         $request = $this->app->request;
         $message = $request->get('msg');
         $variables = [];
@@ -41,7 +40,7 @@ class PatentController extends Controller
 
         }
 
-        $this->render('showpatent.twig', [
+        $this->render('patents/show.twig', [
             'patent' => $patent,
             'user' => $user,
             'flash' => $variables
@@ -49,12 +48,12 @@ class PatentController extends Controller
 
     }
 
-    public function showNewPatentForm()
+    public function new()
     {
 
         if ($this->auth->check()) {
             $username = $_SESSION['user'];
-            $this->render('registerpatent.twig', ['username' => $username]);
+            $this->render('patents/new.twig', ['username' => $username]);
         } else {
 
             $this->app->flash('error', "You need to be logged in to register a patent");
@@ -85,19 +84,19 @@ class PatentController extends Controller
                 $patent->setDate($date);
                 $patent->setFile($file);
                 $savedPatent = $this->patentRepository->save($patent);
-                $this->app->redirect('/patent/' . $savedPatent . '?msg="Patent succesfully registered');
+                $this->app->redirect('/patents/' . $savedPatent . '?msg="Patent succesfully registered');
             }
         }
 
             $this->app->flashNow('error', join('<br>', $validation->getValidationErrors()));
-            $this->app->render('registerpatent.twig');
+            $this->app->render('patents/new.twig');
     }
 
     public function startUpload()
-    { 
+    {
         if(isset($_POST['submit']))
         {
-            $target_dir =  getcwd()."\web\uploads\\";
+            $target_dir =  getcwd()."/web/uploads/";
             $targetFile = $target_dir . basename($_FILES['uploaded']['name']);
             if(move_uploaded_file($_FILES['uploaded']['tmp_name'], $targetFile))
             {
@@ -105,5 +104,16 @@ class PatentController extends Controller
             }
         }
     }
-}
 
+    public function destroy($patentId)
+    {
+        if ($this->patentRepository->deleteByPatentid($patentId) === 1) {
+            $this->app->flash('info', "Sucessfully deleted '$patentId'");
+            $this->app->redirect('/admin');
+            return;
+        }
+
+        $this->app->flash('info', "An error ocurred. Unable to delete user '$username'.");
+        $this->app->redirect('/admin');
+    }
+}
