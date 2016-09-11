@@ -22,9 +22,8 @@ class PatentsController extends Controller
         {
             $patent->sortByDate();
         }
-        $username = $_SESSION['user'];
-        $user = $this->userRepository->findByUser($username);
-        $this->render('patents/index.twig', ['patent' => $patent, 'user' => $user]);
+        $users = $this->userRepository->all();
+        $this->render('patents/index.twig', ['patent' => $patent, 'users' => $users]);
     }
 
     public function show($patentId)
@@ -97,7 +96,7 @@ class PatentsController extends Controller
     {
         if(isset($_POST['submit']))
         {
-            $target_dir =  getcwd()."\web\uploads\\";
+            $target_dir =  getcwd()."/web/uploads/";
             $targetFile = $target_dir . basename($_FILES['uploaded']['name']);
             if(move_uploaded_file($_FILES['uploaded']['tmp_name'], $targetFile))
             {
