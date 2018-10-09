@@ -48,7 +48,7 @@ class PatentsController extends Controller
 
     }
 
-    public function new()
+    public function newpatent()
     {
 
         if ($this->auth->check()) {

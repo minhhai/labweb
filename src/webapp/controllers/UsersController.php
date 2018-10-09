@@ -41,7 +41,7 @@ class UsersController extends Controller
         }
     }
 
-    public function new()
+    public function newuser()
     {
         if ($this->auth->guest()) {
             return $this->render('users/new.twig', []);

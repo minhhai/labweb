@@ -51,13 +51,13 @@ $app->get('/', $ns . 'PagesController:frontpage');
 $app->get('/aboutus', $ns . 'PagesController:aboutUs');
 
 // Authentication
-$app->get('/login', $ns . 'SessionsController:new');
+$app->get('/login', $ns . 'SessionsController:newSession');
 $app->post('/login', $ns . 'SessionsController:create');
 
 $app->get('/logout', $ns . 'SessionsController:destroy')->name('logout');
 
 // User management
-$app->get('/users/new', $ns . 'UsersController:new')->name('newuser');
+$app->get('/users/new', $ns . 'UsersController:newuser')->name('newuser');
 $app->post('/users/new', $ns . 'UsersController:create');
 
 $app->get('/users/:username', $ns . 'UsersController:show')->name('showuser');
@@ -71,7 +71,7 @@ $app->post('/profile/edit', $ns . 'UsersController:update');
 // Patents
 $app->get('/patents', $ns . 'PatentsController:index')->name('showpatents');
 
-$app->get('/patents/new', $ns . 'PatentsController:new')->name('registerpatent');
+$app->get('/patents/new', $ns . 'PatentsController:newpatent')->name('registerpatent');
 $app->post('/patents/new', $ns . 'PatentsController:create');
 
 $app->get('/patents/:patentId', $ns . 'PatentsController:show');
